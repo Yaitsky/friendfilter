@@ -33,7 +33,7 @@ module.exports = {
         }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'friends editor',
+            title: 'friends filter',
             template: 'index.hbs',
             filename: 'index.html',
             chunks: ['main']

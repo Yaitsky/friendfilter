@@ -1,4 +1,67 @@
 <script type="text/javascript" src="https://vk.com/js/api/openapi.js?122"></script>
 
-<button id="loadFriends">загрузить список друзей</button>
-<div id="friends"></div>
+<div class="wrapper">
+    <div class="app-wrapper">
+        <header class="header">
+            <div class="header__title">
+                Выберите друзей
+            </div>
+        </header>
+
+        <section class="app-section">
+            <div class="app-left">
+                <div class="section-header">
+                    <div class="search-icon-block">
+                        <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                    </div>
+                    <input placeholder="Начните вводить имя друга" type="text" id="filterFullList" class="search-block">
+                </div>
+                <div class="friends">
+                    <div class="friends__title">
+                        Ваши друзья
+                    </div>
+                   <ul class="friends__list">
+                       <li class="friends__item">
+                           <div class="friends__user">
+                               <img src="https://lh3.googleusercontent.com/jXjPcDcvCo-_9XVbAWNXZUUipR8V18PcvhjeTavYBsRCO94LtDAcQ5FzlH7LLI5gvGQ=w300" alt="" class="friends__photo">
+                               <div class="friends__name">Игорь Яицкий</div>
+                           </div>
+                           <div class="friends__button">
+                               <i class="fa fa-plus plus-icon" aria-hidden="true"></i>
+                           </div>
+                       </li>
+                   </ul>
+                </div>
+            </div>
+
+            <div class="app-right">
+                <div class="section-header">
+                    <div class="search-icon-block">
+                        <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                    </div>
+                    <input placeholder="Имя друга" type="text" id="filterFilteredList" class="search-block">
+                </div>
+                <div class="friends">
+                    <div class="friends__title">
+                        Друзья в списке
+                    </div>
+                    <ul class="friends__list">
+                        <li class="friends__item">
+                            <div class="friends__user">
+                                <img src="https://lh3.googleusercontent.com/jXjPcDcvCo-_9XVbAWNXZUUipR8V18PcvhjeTavYBsRCO94LtDAcQ5FzlH7LLI5gvGQ=w300" alt="" class="friends__photo">
+                                <div class="friends__name">Игорь Яицкий</div>
+                            </div>
+                            <div class="friends__button">
+                                <i class="fa fa-times plus-icon" aria-hidden="true"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <a href="#" class="save-button">Сохранить</a>
+        </footer>
+    </div>
+</div>
