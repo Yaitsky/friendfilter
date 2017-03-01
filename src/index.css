@@ -176,6 +176,16 @@ body, html {
     color:#4f4f4f;
 }
 
+.close-icon {
+    font-size: 25px;
+    color: #9f9f9f;
+    margin-right:5px;
+}
+
+.close-icon:hover {
+    color:#4f4f4f;
+}
+
 .footer {
     width:100%;
     height:45px;
