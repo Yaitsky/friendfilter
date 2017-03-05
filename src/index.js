@@ -150,7 +150,14 @@ var friendFilterModule = function () {
         friendsStorage.setItem("fullFriends", friendsArrayString);
         friendsStorage.setItem("newFriends", newFriendsArrayString);
 
-        alert('Ваши списки друзей сохранены!');
+        var modal = document.querySelector(".app-modal");
+        var closeModal = modal.querySelector("#closeModal");
+
+        modal.style.display = 'block';
+
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        })
     }
 
     function dragOverHandler(e) {
