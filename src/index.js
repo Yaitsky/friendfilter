@@ -236,6 +236,8 @@ function correctArraysWithAdd(thisUserName, thisUserLastName) {
             && (friendsArray[i].last_name) == thisUserLastName) {
             friendIndex = i;
             newFriendsArray.push(friendsArray[i]);
+
+            break;
         }
     }
 
@@ -250,6 +252,7 @@ function correctArraysWithRemove(thisUserName, thisUserLastName) {
             && (newFriendsArray[i].last_name) == thisUserLastName) {
             friendIndex = i;
             friendsArray.push(newFriendsArray[i]);
+            break;
         }
     }
 
@@ -285,7 +288,7 @@ function dropFullHandler(e) {
     reloadArrays();
 }
 
-function loadFromStorage() {
+function loadFromStorage(result) {
     var storageFriendsArray = localStorage.getItem("fullFriends");
     var storageNewFriendsArray = localStorage.getItem("newFriends");
 
@@ -308,7 +311,7 @@ login()
     })
     .then(function (result) {
         // LOAD FROM LOCAL STORAGE
-        loadFromStorage();
+        loadFromStorage(result);
 
         // ADD-REMOVE FRIENDS
         friendsList.addEventListener('click', addFriend);
