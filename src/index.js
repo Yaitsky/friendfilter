@@ -334,3 +334,6 @@ login()
         friendsList.addEventListener('dragover', dragOverHandler);
         friendsList.addEventListener('drop', dropFullHandler);
     })
+    .catch(function () {
+        alert('Загрузка не удалась! Повторите попытку позже.')
+    })
