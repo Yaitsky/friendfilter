@@ -33,6 +33,7 @@ var friendsArray = [];
 var newFriendsArray = [];
 var filterFilteredList = document.querySelector('#filterFilteredList');
 var filterFullList = document.querySelector('#filterFullList');
+var saveButton = document.querySelector('#saveButton');
 
 
 function createFriendsList(friends) {
@@ -81,6 +82,8 @@ function addFriend(e) {
         var thisUserName = thisUserArray[0];
         var thisUserLastName = thisUserArray[1];
         var friendIndex;
+        var filterFullValue = filterFullList.value;
+        var filterFilteredValue = filterFilteredList.value;
 
         for (var i = 0; i < friendsArray.length; i++) {
             if ((friendsArray[i].first_name == thisUserName)
@@ -91,8 +94,38 @@ function addFriend(e) {
         }
 
         friendsArray.splice(friendIndex, 1);
-        friendsList.innerHTML = createFriendsList(friendsArray);
-        filteredList.innerHTML = createSecondList(newFriendsArray);
+
+        if (filterFullValue == '') {
+            friendsList.innerHTML = createFriendsList(friendsArray);
+        } else {
+            var filteredFullFriendsArray = friendsArray.slice(0, friendsArray.length);
+
+            for (var i = 0; i < filteredFullFriendsArray.length; i++) {
+                if (!((isMatching(filteredFullFriendsArray[i].first_name, filterFullValue))
+                    || (isMatching(filteredFullFriendsArray[i].last_name, filterFullValue)))) {
+                    filteredFullFriendsArray.splice(i, 1);
+                    i--;
+                }
+            }
+
+            friendsList.innerHTML = createFriendsList(filteredFullFriendsArray);
+        }
+
+        if (filterFilteredValue == '') {
+            filteredList.innerHTML = createSecondList(newFriendsArray);
+        } else {
+            var filteredSecondFriendsArray = newFriendsArray.slice(0, newFriendsArray.length);
+
+            for (var i = 0; i < filteredSecondFriendsArray.length; i++) {
+                if (!((isMatching(filteredSecondFriendsArray[i].first_name, filterFilteredValue))
+                    || (isMatching(filteredSecondFriendsArray[i].last_name, filterFilteredValue)))) {
+                    filteredSecondFriendsArray.splice(i, 1);
+                    i--;
+                }
+            }
+
+            filteredList.innerHTML = createSecondList(filteredSecondFriendsArray);
+        }
     }
 }
 
@@ -107,6 +140,8 @@ function removeFriend(e) {
         var thisUserName = thisUserArray[0];
         var thisUserLastName = thisUserArray[1];
         var friendIndex;
+        var filterFullValue = filterFullList.value;
+        var filterFilteredValue = filterFilteredList.value;
 
         for (var i = 0; i < newFriendsArray.length; i++) {
             if ((newFriendsArray[i].first_name == thisUserName)
@@ -118,8 +153,38 @@ function removeFriend(e) {
 
         newFriendsArray.splice(friendIndex, 1);
         friendsArray.sort(compareNames);
-        friendsList.innerHTML = createFriendsList(friendsArray);
-        filteredList.innerHTML = createSecondList(newFriendsArray);
+
+        if (filterFullValue == '') {
+            friendsList.innerHTML = createFriendsList(friendsArray);
+        } else {
+            var filteredFullFriendsArray = friendsArray.slice(0, friendsArray.length);
+
+            for (var i = 0; i < filteredFullFriendsArray.length; i++) {
+                if (!((isMatching(filteredFullFriendsArray[i].first_name, filterFullValue))
+                    || (isMatching(filteredFullFriendsArray[i].last_name, filterFullValue)))) {
+                    filteredFullFriendsArray.splice(i, 1);
+                    i--;
+                }
+            }
+
+            friendsList.innerHTML = createFriendsList(filteredFullFriendsArray);
+        }
+
+        if (filterFilteredValue == '') {
+            filteredList.innerHTML = createSecondList(newFriendsArray);
+        } else {
+            var filteredSecondFriendsArray = newFriendsArray.slice(0, newFriendsArray.length);
+
+            for (var i = 0; i < filteredSecondFriendsArray.length; i++) {
+                if (!((isMatching(filteredSecondFriendsArray[i].first_name, filterFilteredValue))
+                    || (isMatching(filteredSecondFriendsArray[i].last_name, filterFilteredValue)))) {
+                    filteredSecondFriendsArray.splice(i, 1);
+                    i--;
+                }
+            }
+
+            filteredList.innerHTML = createSecondList(filteredSecondFriendsArray);
+        }
     }
 }
 
@@ -161,18 +226,44 @@ function filterFilteredFriends() {
     }
 }
 
+function saveFriends(e) {
+    e.preventDefault();
+
+    var friendsStorage = localStorage;
+    var friendsArrayString = JSON.stringify(friendsArray);
+    var newFriendsArrayString = JSON.stringify(newFriendsArray);
+
+    friendsStorage.setItem("fullFriends", friendsArrayString);
+    friendsStorage.setItem("newFriends", newFriendsArrayString);
+
+    alert('Ваши списки друзей сохранены!');
+}
+
 login()
     .then(function () {
         console.log('Hello');
         return callAPI('friends.get', {v: 5.62, fields: 'photo_100'})
     })
     .then(function (result) {
-        friendsArray = result.items.sort(compareNames);
-        friendsList.innerHTML = createFriendsList(friendsArray);
+        var storageFriendsArray = localStorage.getItem("fullFriends");
+        var storageNewFriendsArray = localStorage.getItem("newFriends");
+
+        if (!storageFriendsArray) {
+            friendsArray = result.items.sort(compareNames);
+            friendsList.innerHTML = createFriendsList(friendsArray);
+        } else {
+            friendsArray = JSON.parse(storageFriendsArray).slice(0, JSON.parse(storageFriendsArray).length);
+            newFriendsArray = JSON.parse(storageNewFriendsArray).slice(0, JSON.parse(storageNewFriendsArray).length);
+
+            friendsList.innerHTML = createFriendsList(friendsArray);
+            filteredList.innerHTML = createSecondList(newFriendsArray);
+        }
 
         friendsList.addEventListener('click', addFriend);
         filteredList.addEventListener('click', removeFriend);
 
         filterFullList.addEventListener('keyup', filterFullFriends);
         filterFilteredList.addEventListener('keyup', filterFilteredFriends);
+
+        saveButton.addEventListener('click', saveFriends);
     })
